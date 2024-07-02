@@ -1,0 +1,8 @@
+Flask
+uagents
+requests
+pydantic
+flask>=2.0
+flask-cors
+watchdog
+watchdog==2.1.6
