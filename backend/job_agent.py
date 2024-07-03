@@ -1,8 +1,7 @@
-import requests
 import os
+import requests
 from pydantic import Field
 from uagents import Agent, Context, Model
-from ai_engine import UAgentResponse, UAgentResponseType
 from uagents.setup import fund_agent_if_low
 
 class JobRequest(Model):
@@ -43,22 +42,15 @@ agent = Agent(
 fund_agent_if_low(agent.wallet.address())
 
 # Define the handler for job requests
-@agent.on_query(model=JobRequest, replies={UAgentResponse})
-async def load_job(ctx: Context, sender: str, msg: JobRequest):
-    ctx.logger.info(f"Received job request: {msg.job_description}")
-    
-    if not callable(get_job_details):
-        ctx.logger.error("get_job_details is not a callable function.")
-        message = "Internal error: get_job_details function is not defined correctly."
-        await ctx.send(sender, UAgentResponse(message=message, type=UAgentResponseType.FINAL))
-        return
-
+@agent.on_query(model=JobRequest)
+async def query_handler(ctx: Context, sender: str, msg: JobRequest):
     try:
         details = await get_job_details(msg.job_description, rapidapi_key)
         if 'error' in details:
             raise Exception(details['message'])
             
         ctx.logger.info(f"Job details for {msg.job_description}: {details}")
+        
         message = ""
         for detail in details:
             job_url = detail.get('url', 'No URL available')
@@ -78,7 +70,7 @@ async def load_job(ctx: Context, sender: str, msg: JobRequest):
         ctx.logger.error(f"An error occurred while fetching job details: {e}")
         message = f"An unexpected error occurred: {e}"
 
-    await ctx.send(sender, UAgentResponse(message=message, type=UAgentResponseType.FINAL))
+    await ctx.send(sender, message)
 
 # On agent startup, print the address
 @agent.on_event('startup')
