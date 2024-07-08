@@ -1,32 +1,52 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+import logging
+from quart import Quart, request, jsonify
+from quart_cors import cors
 from uagents.query import query
 from uagents import Model
 import json
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for all domains on all routes
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-job_agent_address = 'agent1qgjwsfkyhx4pgmnfnaqa7vacjrnua0wlh62q7tzf476g8lle660pjg0sm06'  # Update with your job agent's address
+# Initialize Quart app
+app = Quart(__name__)
+app = cors(app, allow_origin="http://localhost:5173")
 
-# Define Request and Response Models using uagents.Model
+# Replace with your actual job agent address
+job_agent_address = 'agent1qgjwsfkyhx4pgmnfnaqa7vacjrnua0wlh62q7tzf476g8lle660pjg0sm06'
 
+# Define the job request model
 class JobRequest(Model):
     job_description: str
 
+# Define the job response model
 class JobResponse(Model):
-    jobs: str
+    jobs: list
 
-# Route for getting job listings
 @app.route('/api/jobs', methods=['POST'])
-def get_jobs():
+async def get_jobs():
     try:
-        data = request.json  # Access JSON data from the request
-        description = data.get('description', '')  # Assuming JSON structure like {"description": "some description"}
-        response = query(destination=job_agent_address, message=JobRequest(job_description=description), timeout=15.0)
-        data = json.loads(response.decode_payload())
-        return jsonify(data)
+        data = await request.json
+        description = data.get('description', '')
+
+        if not description:
+            return jsonify({'error': 'Job description is required'}), 400
+        
+        # Query the job agent
+        logger.info("Sending query to agent with description: %s", description)
+        response = await query(destination=job_agent_address, message=JobRequest(job_description=description), timeout=30.0)
+        
+        # Extract job details from agent response
+        logger.info("Received response from agent: %s", response)
+        response_payload = response.json().get('payload', '{}')
+        data = json.loads(response_payload)
+        jobs = data.get('jobs', [])
+
+        return jsonify(jobs)
+    
     except Exception as e:
+        logger.error("Error occurred: %s", e)
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':

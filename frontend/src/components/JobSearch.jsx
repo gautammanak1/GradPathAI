@@ -2,20 +2,21 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const JobSearch = ({ onSearch }) => {
-    const [jobDescription, setJobDescription] = useState('');
+    const [description, setDescription] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSearch(jobDescription);
+        onSearch(description);
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter job description"
-                value={jobDescription}
-                onChange={(e) => setJobDescription(e.target.value)}
+                required
             />
             <button type="submit">Search</button>
         </form>
@@ -23,7 +24,7 @@ const JobSearch = ({ onSearch }) => {
 };
 
 JobSearch.propTypes = {
-    onSearch: PropTypes.func.isRequired
+    onSearch: PropTypes.func.isRequired,
 };
 
 export default JobSearch;
