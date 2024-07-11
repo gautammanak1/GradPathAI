@@ -11,6 +11,7 @@ const JobList = ({ jobs }) => {
                         <p>{job.location}</p>
                         <p>{job.salary}</p>
                         <p>{job.summary}</p>
+                        <p>{job.url}</p>
                     </div>
                 ))
             ) : (

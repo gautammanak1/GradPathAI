@@ -8,6 +8,7 @@ const App = () => {
 
     const fetchJobs = async (description) => {
         try {
+            console.log('Searching for jobs:', description);
             const response = await fetch('http://localhost:5000/api/jobs/', {  // Ensure this matches your backend endpoint
                 method: 'POST',
                 headers: {
@@ -21,6 +22,7 @@ const App = () => {
             }
 
             const data = await response.json();
+            console.log('Jobs:', data);
             setJobs(data);
             setError(null); // Clear any previous errors
         } catch (error) {
