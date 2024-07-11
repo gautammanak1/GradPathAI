@@ -1,19 +1,21 @@
-import os
 import requests
-from pydantic import Field
 from uagents import Agent, Context, Model
 from uagents.setup import fund_agent_if_low
 
 # Define the job request model
 class JobRequest(Model):
-    job_description: str = Field(description="Give details of job you are looking for")
+    job_description: str
 
 # Define the response model
-class Response(Model):
+class JobResponse(Model):
     jobs: list
 
+# Define the error response model
+class ErrorResponse(Model):
+    error: str
+
 # Function to get job details from the external API
-async def get_job_details(job_role, rapidapi_key):
+async def get_job_details(job_role):
     url = "https://indeed11.p.rapidapi.com/"
     payload = {
         "search_terms": job_role,
@@ -21,7 +23,7 @@ async def get_job_details(job_role, rapidapi_key):
         "page": "1"
     }
     headers = {
-        'x-rapidapi-key': rapidapi_key,
+        'x-rapidapi-key': "532433cccfmshb56c99672a3f2cdp1c3347jsn605e888cea9d",  # Replace with your key
         'x-rapidapi-host': "indeed11.p.rapidapi.com",
         'Content-Type': "application/json"
     }
@@ -31,12 +33,8 @@ async def get_job_details(job_role, rapidapi_key):
     else:
         return {"error": response.status_code, "message": response.text}
 
-# Hardcoded values for job role and RapidAPI key
-job_role = "Software Engineer, Web Developer, Sales, AI Engineer, Community Manager, HR"
-rapidapi_key = os.getenv('911d4d6013mshe47e761d58e4b09p11e35djsn88fd7c2d401c')  # Ensure your RapidAPI key is set in environment variables
-
-# Define the agent
-agent = Agent(
+# Define the JobAgent
+JobAgent = Agent(
     name="JobAgent",
     port=8002,
     seed="Job Agent secret phrase",
@@ -44,24 +42,30 @@ agent = Agent(
 )
 
 # Register agent on Almanac and fund it if necessary
-fund_agent_if_low(agent.wallet.address())
+fund_agent_if_low(JobAgent.wallet.address())
+
+# On agent startup, print the address
+@JobAgent.on_event('startup')
+async def agent_details(ctx: Context):
+    ctx.logger.info(f'Job Agent Address is {JobAgent.address}')
 
 # Define the handler for job requests
-@agent.on_query(model=JobRequest, replies=Response)
+@JobAgent.on_query(model=JobRequest, replies={JobResponse, ErrorResponse})
 async def query_handler(ctx: Context, sender: str, msg: JobRequest):
     try:
-        details = await get_job_details(msg.job_description, rapidapi_key)
+        ctx.logger.info(f"Received job request: {msg.job_description}")
+        details = await get_job_details(msg.job_description)
         if 'error' in details:
             raise Exception(details['message'])
         
         # Prepare jobs response
         jobs = []
         for detail in details:
-            job_title = detail.get('job_title', 'No title available')
-            company_name = detail.get('company_name', 'No company name available')
+            job_title = detail.get('title', 'No title available')
+            company_name = detail.get('company', 'No company name available')
             location = detail.get('location', 'No location available')
             salary = detail.get('salary', 'No salary information available')
-            summary = detail.get('summary', 'No summary available')
+            summary = detail.get('description', 'No summary available')
             job_date = detail.get('date', 'Just posted')
 
             job_data = {
@@ -73,19 +77,15 @@ async def query_handler(ctx: Context, sender: str, msg: JobRequest):
                 "date": job_date
             }
             jobs.append(job_data)
-
-        await ctx.send(sender, Response(jobs=jobs))
-        ctx.logger.info(f"Job details for {msg.job_description}: {jobs}")
+        
+        ctx.logger.info(f"Job details sent for {msg.job_description}: {jobs}")
+        await ctx.send(sender, JobResponse(jobs=jobs))
     
     except Exception as e:
-        ctx.logger.error(f"An error occurred while fetching job details: {e}")
-        await ctx.send(sender, Response(jobs=[]))  # Send empty response on error
-
-# On agent startup, print the address
-@agent.on_event('startup')
-async def agent_details(ctx: Context):
-    ctx.logger.info(f'Job Agent Address is {agent.address}')
+        error_message = f"An error occurred while fetching job details: {e}"
+        ctx.logger.error(error_message)
+        await ctx.send(sender, ErrorResponse(error=str(error_message)))  # Ensure error message is a string
 
 # Starting agent
 if __name__ == "__main__":
-    agent.run()
+    JobAgent.run()

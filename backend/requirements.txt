@@ -1,8 +1,5 @@
 Flask
 uagents
 requests
-pydantic
-flask>=2.0
-flask-cors
-watchdog
-watchdog==2.1.6
+quart==0.17.0
+quart-cors==0.3.0

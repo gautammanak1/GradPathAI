@@ -8,7 +8,7 @@ const App = () => {
 
     const fetchJobs = async (description) => {
         try {
-            const response = await fetch('http://localhost:5000/api/jobs', {  // Ensure this matches your backend port
+            const response = await fetch('http://localhost:5000/api/jobs/', {  // Ensure this matches your backend endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
