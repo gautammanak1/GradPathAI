@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import JobSearch from './components/JobSearch';
 import JobList from './components/JobList';
+import Hero from './components/Hero';
+import About from './components/About';
+import Footer from './components/Footer';
 
 const App = () => {
     const [jobs, setJobs] = useState([]);
@@ -34,10 +37,13 @@ const App = () => {
 
     return (
         <div>
-            <h1>Job Finder</h1>
+            <Hero/>
+            <About/>
             {error && <div className="error">{error}</div>}  {/* Display error messages */}
             <JobSearch onSearch={fetchJobs} />
             <JobList jobs={jobs} />
+            <Footer/>
+            
         </div>
     );
 };

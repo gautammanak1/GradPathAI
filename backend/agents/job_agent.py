@@ -32,7 +32,7 @@ async def get_job_details(job_role):
     }
     headers = {
         # Replace with your key
-        'x-rapidapi-key': "532433cccfmshb56c99672a3f2cdp1c3347jsn605e888cea9d",
+        'x-rapidapi-key': "", #f305d729f7msh392708bf2c11363p1dcb9cjsn26021afb9318
         'x-rapidapi-host': "indeed11.p.rapidapi.com",
         'Content-Type': "application/json"
     }
