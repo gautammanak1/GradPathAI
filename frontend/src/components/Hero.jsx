@@ -3,7 +3,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'About', href: '#' },
-  { name: 'Chat', href: '' },
+  { name: 'Job', href: '' },
   { name: 'Fetch.ai', href: '' },
 ]
 
@@ -67,8 +67,10 @@ export default function Hero() {
                     <span className="sr-only">Your Company</span>
                     <img
                       alt=""
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                      className="h-8 w-auto sm:h-10"
+                      src="src/assets/logo.png"
+                      className=""
+                      width={150}
+                      height={150}
                     />
                   </a>
                   <div className="-mr-2 flex items-center md:hidden">
@@ -111,7 +113,7 @@ export default function Hero() {
                 <div>
                   <img
                     alt=""
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    src=""
                     className="h-8 w-auto"
                   />
                 </div>

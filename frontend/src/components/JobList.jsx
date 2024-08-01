@@ -6,7 +6,7 @@ const JobList = ({ jobs }) => {
         <div className="p-6">
             {jobs.length > 0 ? (
                 jobs.map((job, index) => (
-                    <div key={index} className="job bg-white shadow-md rounded-lg p-6 mb-4">
+                    <div key={index} className="job bg-white flex flex-col justify-center   shadow-md rounded-lg p-6 mb-4">
                         <h3 className="text-2xl font-semibold text-gray-800">{job.title}</h3>
                         <p className="text-gray-600">{job.company}</p>
                         <p className="text-gray-600">{job.location}</p>

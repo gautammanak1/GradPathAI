@@ -27,7 +27,7 @@ async def get_job_details(job_role):
     url = "https://indeed11.p.rapidapi.com/"
     payload = {
         "search_terms": job_role,
-        "location": "United States",
+        "location": "Noida",
         "page": "1"
     }
     headers = {
