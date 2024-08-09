@@ -12,6 +12,17 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.5",
+    "date-fns": "^3.6.0",
+    "deploy": "^1.0.3",
+    "emailjs": "^4.0.3",
+    "emailjs-com": "^3.2.0",
+    "emulators": "^8.1.4",
+    "express": "^4.19.2",
+    "firebase": "^10.12.5",
+    "firebase-functions": "^5.0.1",
+    "functions": "^1.0.9",
+    "init": "^0.1.2",
+    "nodemailer": "^6.9.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.2.1"

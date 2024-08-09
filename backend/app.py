@@ -8,31 +8,70 @@ from uagents import Model
 app = Quart(__name__)
 app = cors(app, allow_origin="http://localhost:5173")
 
-# Update with your job agent's address
+# Update with your agents' addresses
+chat_agent_address = 'agent1qwt9tcayv89rhckv3vx7676p6j4r2mxulyvdtf3t0ushzttawt5qzajrqlf'
 job_agent_address = 'agent1qgjwsfkyhx4pgmnfnaqa7vacjrnua0wlh62q7tzf476g8lle660pjg0sm06'
+resume_agent_address = 'agent1q2emkeqs8l38djx7tn4pm3zr58gwujsx66h8xzv3mx8gsr6hju8v2re6y3u'
+mentor_agent_address = 'agent1q0c2saa3pyhcmw50hdwpd8369mgevufph4ukpteljz4s0a6jryv8yk60z72' 
+# Define the models
+class ChatbotRequest(Model):
+    user_message: str
 
-# Define the job request model
-
+class ChatbotResponse(Model):
+    bot_response: str
 
 class JobRequest(Model):
     job_description: str
 
-# Define the job response model
-
-
 class JobResponse(Model):
     jobs: list
 
-# Define the error response model
+class ResumeRequest(Model):
+    resume_url: str
 
+class ResumeResponse(Model):
+    summary: str
+    skills: list
+    recommended_jobs: list
+
+class MentorRequest(Model):
+    mentor_criteria: str
+
+class MentorResponse(Model):
+    mentors: list
 
 class ErrorResponse(Model):
     error: str
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+@app.route('/api/chat/', methods=['POST'])
+async def chat_with_bot():
+    try:
+        data = await request.json
+        user_message = data.get('message', '')
+        if not user_message:
+            return jsonify({'error': 'User message is required'}), 400
+
+        logger.info("Sending query to chat agent with user message: %s", user_message)
+        response = await query(destination=chat_agent_address, message=ChatbotRequest(user_message=user_message), timeout=240.0)
+
+        if response is None:
+            raise ValueError("Received no response from the agent")
+
+        response = json.loads(response.decode_payload())
+
+        logger.info("Received response from chat agent: %s", response)
+
+        if isinstance(response, dict) and 'error' in response:
+            raise ValueError(response['error'])
+
+        return jsonify({'response': response['bot_response']})
+
+    except Exception as e:
+        logger.error("Error occurred: %s", e)
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/jobs/', methods=['POST'])
 async def get_jobs():
@@ -42,22 +81,78 @@ async def get_jobs():
         if not description:
             return jsonify({'error': 'Job description is required'}), 400
 
-        # Query the job agent
-        logger.info("Sending query to agent with description: %s", description)
+        logger.info("Sending query to job agent with description: %s", description)
         response = await query(destination=job_agent_address, message=JobRequest(job_description=description), timeout=240.0)
-
-        response = json.loads(response.decode_payload())
 
         if response is None:
             raise ValueError("Received no response from the agent")
 
-        # Extract job details from agent response
-        logger.info("Received response from agent: %s", response)
+        response = json.loads(response.decode_payload())
+
+        logger.info("Received response from job agent: %s", response)
 
         if isinstance(response, dict) and 'error' in response:
             raise ValueError(response['error'])
 
         return jsonify(response['jobs'])
+
+    except Exception as e:
+        logger.error("Error occurred: %s", e)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/resume/', methods=['POST'])
+async def analyze_resume():
+    try:
+        data = await request.json
+        resume_url = data.get('resume_url', '')
+        if not resume_url:
+            return jsonify({'error': 'Resume URL is required'}), 400
+
+        logger.info("Sending query to resume agent with resume URL: %s", resume_url)
+        response = await query(destination=resume_agent_address, message=ResumeRequest(resume_url=resume_url), timeout=240.0)
+
+        if response is None:
+            raise ValueError("Received no response from the agent")
+
+        response = json.loads(response.decode_payload())
+
+        logger.info("Received response from resume agent: %s", response)
+
+        if isinstance(response, dict) and 'error' in response:
+            raise ValueError(response['error'])
+
+        return jsonify({
+            'summary': response['summary'],
+            'skills': response['skills'],
+            'recommended_jobs': response['recommended_jobs']
+        })
+
+    except Exception as e:
+        logger.error("Error occurred: %s", e)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/mentor/', methods=['POST'])
+async def find_mentor():
+    try:
+        data = await request.json
+        mentor_criteria = data.get('criteria', '')
+        if not mentor_criteria:
+            return jsonify({'error': 'Mentor criteria is required'}), 400
+
+        logger.info("Sending query to mentor agent with criteria: %s", mentor_criteria)
+        response = await query(destination=mentor_agent_address, message=MentorRequest(mentor_criteria=mentor_criteria), timeout=240.0)
+
+        if response is None:
+            raise ValueError("Received no response from the agent")
+
+        response = json.loads(response.decode_payload())
+
+        logger.info("Received response from mentor agent: %s", response)
+
+        if isinstance(response, dict) and 'error' in response:
+            raise ValueError(response['error'])
+
+        return jsonify({'mentors': response['mentors']})
 
     except Exception as e:
         logger.error("Error occurred: %s", e)
