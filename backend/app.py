@@ -5,6 +5,7 @@ from quart_cors import cors
 from uagents.query import query
 from uagents import Model
 
+# Initialize the Quart application
 app = Quart(__name__)
 app = cors(app, allow_origin="http://localhost:5173")
 
@@ -12,7 +13,8 @@ app = cors(app, allow_origin="http://localhost:5173")
 chat_agent_address = 'agent1qwt9tcayv89rhckv3vx7676p6j4r2mxulyvdtf3t0ushzttawt5qzajrqlf'
 job_agent_address = 'agent1qgjwsfkyhx4pgmnfnaqa7vacjrnua0wlh62q7tzf476g8lle660pjg0sm06'
 resume_agent_address = 'agent1q2emkeqs8l38djx7tn4pm3zr58gwujsx66h8xzv3mx8gsr6hju8v2re6y3u'
-mentor_agent_address = 'agent1q0c2saa3pyhcmw50hdwpd8369mgevufph4ukpteljz4s0a6jryv8yk60z72' 
+mentor_agent_address = 'agent1qwu9fppvkvxl6g4la9s533zwt7gjezvwj3r7ykjcun7lcyt9vay8crfed78'
+
 # Define the models
 class ChatbotRequest(Model):
     user_message: str
@@ -35,7 +37,7 @@ class ResumeResponse(Model):
     recommended_jobs: list
 
 class MentorRequest(Model):
-    mentor_criteria: str
+    filter: str
 
 class MentorResponse(Model):
     mentors: list
@@ -43,6 +45,7 @@ class MentorResponse(Model):
 class ErrorResponse(Model):
     error: str
 
+# Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -50,7 +53,7 @@ logger = logging.getLogger(__name__)
 async def chat_with_bot():
     try:
         data = await request.json
-        user_message = data.get('message', '')
+        user_message = data.get('user_message', '')  # Changed key to match frontend
         if not user_message:
             return jsonify({'error': 'User message is required'}), 400
 
@@ -77,7 +80,7 @@ async def chat_with_bot():
 async def get_jobs():
     try:
         data = await request.json
-        description = data.get('description', '')
+        description = data.get('job_description', '')  # Changed key to match backend
         if not description:
             return jsonify({'error': 'Job description is required'}), 400
 
@@ -94,7 +97,7 @@ async def get_jobs():
         if isinstance(response, dict) and 'error' in response:
             raise ValueError(response['error'])
 
-        return jsonify(response['jobs'])
+        return jsonify({'jobs': response['jobs']})
 
     except Exception as e:
         logger.error("Error occurred: %s", e)
@@ -135,12 +138,12 @@ async def analyze_resume():
 async def find_mentor():
     try:
         data = await request.json
-        mentor_criteria = data.get('criteria', '')
-        if not mentor_criteria:
-            return jsonify({'error': 'Mentor criteria is required'}), 400
+        filter_criteria = data.get('filter', '')  # Corrected key
+        if not filter_criteria:
+            return jsonify({'error': 'Mentor filter is required'}), 400
 
-        logger.info("Sending query to mentor agent with criteria: %s", mentor_criteria)
-        response = await query(destination=mentor_agent_address, message=MentorRequest(mentor_criteria=mentor_criteria), timeout=240.0)
+        logger.info("Sending query to mentor agent with filter: %s", filter_criteria)
+        response = await query(destination=mentor_agent_address, message=MentorRequest(filter=filter_criteria), timeout=240.0)
 
         if response is None:
             raise ValueError("Received no response from the agent")
@@ -158,5 +161,6 @@ async def find_mentor():
         logger.error("Error occurred: %s", e)
         return jsonify({'error': str(e)}), 500
 
+# Run the Quart app
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

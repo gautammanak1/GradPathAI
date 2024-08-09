@@ -6,7 +6,7 @@ import About from './components/About';
 import Footer from './components/Footer';
 import ChatInterface from './components/chatbox';
 import Resume from './components/Resume';
-// import Mentor from './components/Mentor'
+import Mentor from './components/Mentor'
 import MentorProfiles from './components/MentorProfiles'
 const Page = () => {
     const [jobs, setJobs] = useState([]);
@@ -48,6 +48,7 @@ const Page = () => {
             <ChatInterface/>
             {/* <Mentor/> */}
             <MentorProfiles/>
+            <Mentor/>
             <Resume/>
             <Footer/>
             
