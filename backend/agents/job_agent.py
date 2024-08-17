@@ -16,7 +16,7 @@ class ErrorResponse(Model):
 
 # Function to get job details from the JSON file
 def get_job_details(job_role):
-    with open('data.json', 'r') as file:
+    with open('job.json', 'r') as file:
         data = json.load(file)
         return [job for job in data if job_role.lower() in job.get('position', '').lower()]
 

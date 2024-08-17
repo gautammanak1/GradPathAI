@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Aanshul Sadaria",
+        "title": "SWE @ Google | Mentor | Speaker | Ex-Researcher",
+        "experience": "4 years",
+        "skills": "Software Development, Data Science, Machine Learning, Python, and more.",
+        "description": "Currently working with LLMs at Google Search. Aanshul has a passion for mentoring and sharing knowledge, making him a great fit for someone looking to develop in the tech field.",
+        "profile_link": "https://linkedin.com/in/aanshul-sadaria",
+        "profile_picture": "https://example.com/aanshul.jpg",
+        "book_call_link": "https://calendly.com/aanshul"
+    },
+    {
+        "name": "Aviral Gupta",
+        "title": "Staff Software Engineer at Google",
+        "experience": "13 years",
+        "skills": "Android Development, C++, Java, Data Structures.",
+        "description": "Aviral has extensive experience in software development and mentorship. He can provide insights on how to get into big tech and career shaping.",
+        "profile_link": "https://linkedin.com/in/aviral-gupta",
+        "profile_picture": "https://example.com/aviral.jpg",
+        "book_call_link": "https://calendly.com/aviral"
+    },
+    {
+        "name": "Akash Verma",
+        "title": "Software Engineer at Google",
+        "experience": "9 years",
+        "skills": "C, C++, Java, and Operating Systems.",
+        "description": "Akash is passionate about helping students and early professionals navigate their careers in software engineering.",
+        "profile_link": "https://linkedin.com/in/akash-verma",
+        "profile_picture": "https://example.com/akash.jpg",
+        "book_call_link": "https://calendly.com/akash"
+    },
+    {
+        "name": "Piyush Gupta",
+        "title": "SDE 3 at Google",
+        "experience": "7 years",
+        "skills": "Machine Learning, Android, Back-End Development.",
+        "description": "Piyush has taken over 100 interviews and has experience mentoring students. He’s well-versed in various tech stacks.",
+        "profile_link": "https://linkedin.com/in/piyush-gupta",
+        "profile_picture": "https://example.com/piyush.jpg",
+        "book_call_link": "https://calendly.com/piyush"
+    },
+    {
+        "name": "Ishita Goyal",
+        "title": "Software Engineer at Google",
+        "experience": "2.67 years",
+        "skills": "Full Stack Development, Mentoring.",
+        "description": "Ishita is an active mentor and has also worked in various tech roles, making her suitable for nurturing new talent in engineering.",
+        "profile_link": "https://linkedin.com/in/ishita-goyal",
+        "profile_picture": "https://example.com/ishita.jpg",
+        "book_call_link": "https://calendly.com/ishita"
+    },
+    {
+        "name": "Ravi Sharma",
+        "title": "Lead Developer at Tech Innovations Inc.",
+        "experience": "8 years",
+        "skills": "Web Development, DevOps, Cloud Computing.",
+        "description": "Ravi has a strong background in web development and DevOps. He enjoys helping others understand cloud computing and scalable solutions.",
+        "profile_link": "https://linkedin.com/in/ravi-sharma",
+        "profile_picture": "https://example.com/ravi.jpg",
+        "book_call_link": "https://calendly.com/ravi"
+    },
+    {
+        "name": "Sneha Patel",
+        "title": "Senior Data Scientist at Data Solutions Ltd.",
+        "experience": "5 years",
+        "skills": "Data Analysis, Big Data, Python, Machine Learning.",
+        "description": "Sneha specializes in big data and machine learning, with a passion for data-driven decision-making and analytics.",
+        "profile_link": "https://linkedin.com/in/sneha-patel",
+        "profile_picture": "https://example.com/sneha.jpg",
+        "book_call_link": "https://calendly.com/sneha"
+    },
+    {
+        "name": "Manish Kumar",
+        "title": "Product Manager at FutureTech",
+        "experience": "10 years",
+        "skills": "Product Management, Agile, Market Analysis.",
+        "description": "Manish has extensive experience in product management and is skilled in market analysis and agile methodologies.",
+        "profile_link": "https://linkedin.com/in/manish-kumar",
+        "profile_picture": "https://example.com/manish.jpg",
+        "book_call_link": "https://calendly.com/manish"
+    },
+    {
+        "name": "Priya Singh",
+        "title": "UX Designer at Creative Solutions",
+        "experience": "6 years",
+        "skills": "UX/UI Design, User Research, Prototyping.",
+        "description": "Priya is passionate about creating user-centered designs and enjoys working on user research and prototyping.",
+        "profile_link": "https://linkedin.com/in/priya-singh",
+        "profile_picture": "https://example.com/priya.jpg",
+        "book_call_link": "https://calendly.com/priya"
+    },
+    {
+        "name": "Amit Patel",
+        "title": "DevOps Engineer at DevMasters",
+        "experience": "7 years",
+        "skills": "CI/CD, Kubernetes, Docker, Automation.",
+        "description": "Amit is experienced in DevOps practices, focusing on automation, CI/CD pipelines, and containerization technologies.",
+        "profile_link": "https://linkedin.com/in/amit-patel",
+        "profile_picture": "https://example.com/amit.jpg",
+        "book_call_link": "https://calendly.com/amit"
+    }
+]

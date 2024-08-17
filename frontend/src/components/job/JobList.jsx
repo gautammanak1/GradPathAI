@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -91,9 +91,9 @@ JobList.propTypes = {
     jobs: PropTypes.arrayOf(
         PropTypes.shape({
             company: PropTypes.string.isRequired,
-            website: PropTypes.string.isRequired,
+            website: PropTypes.string,
             position: PropTypes.string.isRequired,
-            job_link: PropTypes.string.isRequired,
+            job_link: PropTypes.string,
             location: PropTypes.string.isRequired,
             work_type: PropTypes.string.isRequired,
             date_posted: PropTypes.string.isRequired,
