@@ -181,7 +181,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📧 Contact
 
-For any inquiries or feedback, feel free to reach out to us at [your-email@example.com](mailto:your-email@example.com).
+For any inquiries or feedback, feel free to reach out to us at [gautammanak1@gmail.com](mailto:gautammanak1@gmail.com).
 
 ---
 
