@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaGitAlt, FaTools, FaMobileAlt } from 'react-icons/fa';
 
 const roadmapStages = [
@@ -87,29 +87,32 @@ const roadmapStages = [
 
 const FrontEndRoadmap = () => {
   return (
-    <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl font-extrabold text-center text-gray-900 sm:text-4xl">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-4xl font-light text-center text-primary sm:text-5xl">
         Front-End Developer Roadmap
       </h2>
-      <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <p className="mt-4 text-center text-lg text-primary max-w-2xl mx-auto">
+        Follow this roadmap to become a proficient front-end developer. Each stage offers essential skills and resources to guide your learning journey.
+      </p>
+      <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
         {roadmapStages.map((stage, index) => (
           <div
             key={index}
-            className="relative bg-white border border-gray-200 p-6 rounded-lg shadow-lg"
+            className="relative bg-white bg-opacity-80 border border-transparent p-8 rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 hover:scale-105"
           >
-            <div className="flex items-center mb-4 text-indigo-500">
+            <div className="flex items-center mb-4 text-indigo-600">
               {stage.icon}
-              <h3 className="ml-4 text-xl font-bold text-gray-900">{stage.title}</h3>
+              <h3 className="ml-4 text-2xl font-semibold text-gray-900">{stage.title}</h3>
             </div>
-            <p className="text-gray-600">{stage.description}</p>
-            <ul className="mt-4 space-y-2">
+            <p className="text-gray-700">{stage.description}</p>
+            <ul className="mt-6 space-y-3">
               {stage.resources.map((resource, idx) => (
                 <li key={idx}>
                   <a
                     href={resource.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-purple-600 hover:text-purple-800"
+                    className="text-blue-600 hover:text-blue-800 underline"
                   >
                     {resource.name}
                   </a>

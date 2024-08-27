@@ -17,7 +17,7 @@ export default function About() {
                       <div className="relative lg:w-1/2 lg:order-1">
                           <img
                               alt=""
-                              src="/src/assets/about.svg"
+                              src="/about.svg"
                               className="w-full max-w-[37rem] rounded-2xl object-cover"
                           />
                           <div

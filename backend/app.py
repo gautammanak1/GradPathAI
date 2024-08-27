@@ -20,6 +20,7 @@ job_agent_address = 'agent1qgjwsfkyhx4pgmnfnaqa7vacjrnua0wlh62q7tzf476g8lle660pj
 resume_agent_address = 'agent1q2emkeqs8l38djx7tn4pm3zr58gwujsx66h8xzv3mx8gsr6hju8v2re6y3u'
 email_agent_address = 'agent1qfm0255qpacatwzwdxe9equfhjn8hwsg87s3f64fajnkne4g5f69cw6we7d'
 mentor_agent_address = 'agent1qwu9fppvkvxl6g4la9s533zwt7gjezvwj3r7ykjcun7lcyt9vay8crfed78'
+jobAdd_agent_address = 'agent1q0lq2hp7rqp96rwx2x0cnef4eyajwve43xvjyr4dc9xq0pna8tufx9kpe0a'
 
 # Define the models
 class ChatbotRequest(Model):
@@ -41,6 +42,14 @@ class ResumeResponse(Model):
     summary: str
     skills: list
     recommended_jobs: list
+    suggestions: list
+    ats_score: float
+    candidate_info: dict
+    cand_level: str
+    resume_score: int
+    reco_field: str
+    recommended_skills: list
+    rec_course: list
 
 class MentorRequest(Model):
     filter: str
@@ -69,6 +78,23 @@ class MentorAddRequest(Model):
     twitter: str
     calendly: str
     email: str
+class JobAddRequest(Model):
+    title: str
+    company: str
+    location: str
+    description: str
+    technologies: str
+    employmentType: str
+    applyLink: str
+    name: str
+    email: str
+    mobile: str
+    logo: str
+    salaryPackage: str = 'Negotiable'
+    experience: str
+    jobType: str
+    jobCategory: str
+    postedAt: str    
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -245,7 +271,30 @@ async def add_mentor():
     except Exception as e:
         logger.error(f"Error: {e}")
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/add_job/', methods=['POST'])
+async def add_job():
+    try:
+        data = await request.json
+        job_request = JobAddRequest(**data)
 
+        logger.info("Sending job add request to agent")
+        response = await query(destination=jobAdd_agent_address, message=job_request, timeout=240.0)
+
+        if response is None:
+            raise ValueError("Received no response from the agent")
+
+        response_data = json.loads(response.decode_payload())
+        logger.info("Received response from agent: %s", response_data)
+
+        if not response_data.get('success'):
+            return jsonify({'error': response_data.get('message')}), 400
+
+        return jsonify({'message': response_data.get('message')}), 200
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500
 # Run the Quart app
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

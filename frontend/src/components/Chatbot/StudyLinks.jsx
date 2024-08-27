@@ -60,7 +60,7 @@ const topics = [
 
 const StudyLinks = () => {
   return (
-    <div className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-50  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 px-4 sm:px-6 lg:px-8">
       <h2 className="text-3xl font-extrabold text-center text-gray-900 sm:text-4xl">
         Study Resources
       </h2>

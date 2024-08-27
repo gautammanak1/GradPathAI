@@ -1,24 +1,46 @@
-import json
+import requests
 from uagents import Agent, Context, Model
 from uagents.setup import fund_agent_if_low
 
 # Define the job request model
+
+
 class JobRequest(Model):
     job_description: str
 
 # Define the response model
+
+
 class JobResponse(Model):
     jobs: list
 
 # Define the error response model
+
+
 class ErrorResponse(Model):
     error: str
 
-# Function to get job details from the JSON file
-def get_job_details(job_role):
-    with open('job.json', 'r') as file:
-        data = json.load(file)
-        return [job for job in data if job_role.lower() in job.get('position', '').lower()]
+# Function to get job details from the external API
+
+
+async def get_job_details(job_role):
+    url = "https://indeed11.p.rapidapi.com/"
+    payload = {
+        "search_terms": job_role,
+        "location": "United States",
+        "page": "1"
+    }
+    headers = {
+        # Replace with your key
+        'x-rapidapi-key': "f305d729f7msh392708bf2c11363p1dcb9cjsn26021afb9318", 
+        'x-rapidapi-host': "indeed11.p.rapidapi.com",
+        'Content-Type': "application/json"
+    }
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return {"error": response.status_code, "message": response.text}
 
 # Define the JobAgent
 JobAgent = Agent(
@@ -32,32 +54,42 @@ JobAgent = Agent(
 fund_agent_if_low(JobAgent.wallet.address())
 
 # On agent startup, print the address
+
+
 @JobAgent.on_event('startup')
 async def agent_details(ctx: Context):
     ctx.logger.info(f'Job Agent Address is {JobAgent.address}')
 
 # Define the handler for job requests
+
+
 @JobAgent.on_query(model=JobRequest, replies={JobResponse, ErrorResponse})
 async def query_handler(ctx: Context, sender: str, msg: JobRequest):
     try:
         ctx.logger.info(f"Received job request: {msg.job_description}")
-        
-        details = get_job_details(msg.job_description)
-        
-        if not details:
-            raise Exception("No job details found.")
-        
+        details = await get_job_details(msg.job_description)
+        if 'error' in details:
+            raise Exception(details['message'])
+
         # Prepare jobs response
         jobs = []
         for detail in details:
+            job_title = detail.get('job_title', 'No title available')
+            company_name = detail.get('company_name', 'No company name available')
+            location = detail.get('location', 'No location available')
+            salary = detail.get('salary', 'No salary information available')
+            summary = detail.get('summary', 'No summary available')
+            job_date = detail.get('date', 'Just posted')
+            job_url = detail.get('url', 'No URL available')
+
             job_data = {
-                "company": detail.get('company', 'No company name available'),
-                "website": detail.get('website', 'No website available'),
-                "position": detail.get('position', 'No position available'),
-                "job_link": detail.get('job_link', 'No job link available'),
-                "location": detail.get('location', 'No location available'),
-                "work_type": detail.get('work_type', 'No work type available'),
-                "date_posted": detail.get('date_posted', 'Just posted')
+                "title": job_title,
+                "company": company_name,
+                "location": location,
+                "salary": salary,
+                "summary": summary,
+                "date": job_date,
+                "url": job_url
             }
             jobs.append(job_data)
 
@@ -67,6 +99,7 @@ async def query_handler(ctx: Context, sender: str, msg: JobRequest):
     except Exception as e:
         error_message = f"An error occurred while fetching job details: {e}"
         ctx.logger.error(error_message)
+        # Ensure error message is a string
         await ctx.send(sender, ErrorResponse(error=str(error_message)))
 
 # Starting agent

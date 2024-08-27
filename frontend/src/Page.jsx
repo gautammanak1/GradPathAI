@@ -4,9 +4,8 @@ import HomePage from './components/Pages/HomePage';
 import Footer from './components/Footer';
 import AiBot from './components/Pages/AiBot';
 import Resume from './components/Resume';
-
+import AboutResume from './components/AboutResume'
 import NavBar from "./components/navbar/NavBar";
-
 import Jobpage from "./components/Pages/JobPage";
 import MentorPage from './components/Pages/MentorPage';
 
@@ -18,7 +17,7 @@ const Page = () => {
                 <NavBar />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/resume" element={<Resume />} />
+                    <Route path="/resume" element={<> <AboutResume/> <Resume /> </>} />
                     <Route path="/chatbot" element={<AiBot />} />
                     <Route path="/job" element={<Jobpage />} />
                     <Route 

@@ -1,6 +1,6 @@
 export default function About() {
     return (
-        <div className="bg-[#F9FAFB] py-10 sm:py-15">
+        <div className="bg-[#F9FAFB] ">
             <div className="relative isolate">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mx-auto flex flex-col-reverse gap-16 bg-white/5 py-16 ring-1 ring-white/10 sm:rounded-3xl lg:mx-0 lg:max-w-none lg:flex-row lg:items-center lg:py-20 xl:gap-x-20">
@@ -17,7 +17,7 @@ export default function About() {
                         <div className="relative lg:w-1/2 lg:order-1">
                             <img
                                 alt=""
-                                src="/src/assets/hero.svg"
+                                src="/hero.svg"
                                 className="w-full max-w-[29rem] rounded-2xl object-cover"
                             />
                             <div

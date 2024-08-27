@@ -1,32 +1,33 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faBolt, faPuzzlePiece, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faRobot, faLightbulb, faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons';
 
 const features = [
   {
-    icon: faCommentDots,
-    title: "Job Assistant ",
+    icon: faBook,
+    title: "Study Material Roadmap",
     description:
-      "This AI-powered chatbot guides you through the job application process, answers your queries, and provides real-time advice. It's like having a personal job assistant available 24/7.",
+      "Access a comprehensive roadmap of study materials, guiding you step-by-step through the learning process to achieve your career goals.",
   },
   {
-    icon: faBolt,
-    title: "Instant Job Recommendations",
+    icon: faRobot,
+    title: "DishaBot Assistant",
     description:
-      "Get tailored job recommendations based on your skills and experience instantly.",
+      "Meet DishaBot, your AI-driven study companion, offering personalized learning paths, answering queries, and keeping you on track 24/7.",
   },
   {
-    icon: faPuzzlePiece,
-    title: "Skill Assessment & Feedback",
+    icon: faLightbulb,
+    title: "Skill Enhancement & Feedback",
     description:
-      "Receive feedback on your skills and suggestions for improvement to enhance your job prospects.",
+      "Receive detailed feedback on your skills and actionable suggestions for improvement, tailored to your career objectives.",
   },
   {
-    icon: faGlobe,
-    title: "Global Job Market Insights",
+    icon: faMapMarkedAlt,
+    title: "Global Learning Insights",
     description:
-      "Access insights and trends from the global job market to stay ahead of the curve in your job search.",
+      "Stay informed with the latest global learning trends and insights, helping you make informed decisions on your educational journey.",
   },
 ];
+
 
 const ProductFeatures = () => {
   return (
@@ -58,15 +59,7 @@ const ProductFeatures = () => {
             </div>
           ))}
         </div>
-        <p className="mt-8 p-2 text-sm bg-slate-100 rounded-md">
-          Disclaimer :{" "}
-          <span className="mt-2 w-full text-secondary">
-            Our agents are designed to assist and enhance your job search
-            experience. They do not guarantee employment or specific outcomes.
-            Users should verify all information and follow best practices in
-            their job search.
-          </span>
-        </p>
+        
       </div>
     </div>
   );

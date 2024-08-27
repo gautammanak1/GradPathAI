@@ -15,7 +15,7 @@ function Resume() {
   const handleResumeSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setResumeUrl(''); // Clear the search bar immediately after submission
+    setResumeUrl(''); // Clear the input field immediately after submission
     try {
       const response = await axios.post('http://localhost:5000/api/resume/', { resume_url: resumeUrl });
       setResumeAnalysis(response.data);
@@ -34,55 +34,61 @@ function Resume() {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg rounded-lg text-white">
-      <h1 className="text-4xl font-extrabold mb-6 text-center animate-bounce">🎯 Resume Analyzer</h1>
+    <div className="p-6 max-w-2xl mx-auto bg-white shadow-md rounded-md">
+      <h1 className="text-3xl font-bold mb-5 text-center text-gray-800">Resume Analyzer</h1>
 
       {/* Resume Analysis Form */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">🔍 Analyze Your Resume</h2>
-        <form onSubmit={handleResumeSubmit} className="space-y-4">
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-3 text-gray-700">Analyze Your Resume</h2>
+        <form onSubmit={handleResumeSubmit} className="flex flex-col gap-4">
           <input
             type="text"
             value={resumeUrl}
             onChange={(e) => setResumeUrl(e.target.value)}
             placeholder="Enter resume URL"
-            className="p-3 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+            className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button type="submit" className="bg-blue-700 text-white p-3 rounded w-full hover:bg-blue-800 transition duration-200 animate-pulse">
-            Analyze 🚀
+          <button
+            type="submit"
+            className="bg-hoverBg text-tertiary rounded-lg p-4 shadow-lg"
+          >
+            Analyze
           </button>
         </form>
 
         {/* Display Loading Indicator */}
-        {loading && <p className="mt-4 text-blue-200 animate-pulse">🔄 Analyzing resume...</p>}
+        {loading && <p className="mt-4 text-blue-600">Analyzing resume...</p>}
 
         {/* Display Analysis Results */}
-        {error && <p className="mt-4 text-red-200">{error}</p>}
+        {error && <p className="mt-4 text-red-600">{error}</p>}
         {resumeAnalysis.summary && (
-          <div className="mt-6 bg-gray-900 p-6 rounded-lg">
-            <h3 className="text-xl font-bold mb-3 text-gray-200">📄 Resume Summary:</h3>
-            <p className="text-gray-300">{resumeAnalysis.summary}</p>
+          <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md">
+            <h3 className="text-lg font-semibold mb-2 text-gray-800">Resume Summary:</h3>
+            <p className="text-gray-700">{resumeAnalysis.summary}</p>
 
-            <h3 className="text-xl font-bold mt-6 mb-3 text-gray-200">🛠 Skills:</h3>
-            <ul className="list-disc list-inside text-gray-300">
+            <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Skills:</h3>
+            <ul className="list-disc list-inside text-gray-700">
               {resumeAnalysis.skills.map((skill, index) => (
                 <li key={index}>{skill}</li>
               ))}
             </ul>
 
-            <h3 className="text-xl font-bold mt-6 mb-3 text-gray-200">💼 Recommended Jobs:</h3>
-            <ul className="list-disc list-inside text-gray-300">
+            <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Recommended Jobs:</h3>
+            <ul className="list-disc list-inside text-gray-700">
               {resumeAnalysis.recommended_jobs.map((job, index) => (
                 <li key={index}>{job}</li>
               ))}
             </ul>
 
-            <h3 className="text-xl font-bold mt-6 mb-3 text-gray-200">📊 ATS Score:</h3>
-            <p className="text-gray-300">{resumeAnalysis.ats_score}</p>
+            <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">ATS Score:</h3>
+            <p className="text-gray-700">{resumeAnalysis.ats_score}</p>
 
             {/* Clear Button */}
-            <button onClick={handleClear} className="bg-red-600 text-white p-3 rounded w-full mt-4 hover:bg-red-700 transition duration-200">
-              Clear 🧹
+            <button
+              onClick={handleClear}
+              className="bg-red-500 text-white py-2 mt-4 rounded-md w-full hover:bg-red-600 transition-colors"
+            >
+              Clear
             </button>
           </div>
         )}

@@ -4,6 +4,10 @@ import Mentor from '../hero/Hero';
 import About from '../hero/About';
 import Feature from '../hero/Feature';
 import Try from '../hero/Try';
+import Job from '../hero/Job';
+import Faq from '../hero/Faq'; 
+import Value from '../hero/value'
+import Newsletter from '../hero/Newsletter';
 
 const HomePage = () => {
     return (
@@ -11,7 +15,11 @@ const HomePage = () => {
             <Mentor />
             <About />
             <Feature/>
-<Try/>
+            <Job/>
+            <Value/>
+            <Faq/>
+            <Try/> 
+            <Newsletter/>
         </div>
     );
 };

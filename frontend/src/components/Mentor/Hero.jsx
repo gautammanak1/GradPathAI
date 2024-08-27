@@ -25,7 +25,7 @@ const HeroSection = ({ onBecomeMentorClick }) => {
           </div>
         </div>
         <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-          <img src="/src/assets/mentor.svg" alt="mockup" />
+          <img src="/mentor.svg" alt="mockup" />
           
         </div>
         

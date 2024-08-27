@@ -9,8 +9,8 @@ function NewsletterSubscription() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/subscribe/', { email });
-      setMessage(response.data.message); // Show success message
-      setEmail(''); // Clear the email input field
+      setMessage(response.data.message); 
+      setEmail(''); 
     } catch (error) {
       setMessage(error.response?.data?.error || 'Subscription failed'); // Show error message
     }
@@ -20,8 +20,8 @@ function NewsletterSubscription() {
     <div className="py-16 sm:py-24 lg:py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
         <div className="lg:col-span-7">
-          <h2 className="text-3xl font-bold tracking-tight text-indigo-900 sm:text-4xl">Subscribe to our Newsletter</h2>
-          <p className="mt-2 text-lg text-indigo-900">
+          <h2 className="text-3xl font-light tracking-tight text-primary sm:text-4xl">Subscribe to our Newsletter</h2>
+          <p className="mt-2 text-lg text-primary">
             Sign up to receive updates and product news directly in your inbox.
           </p>
         </div>
@@ -43,7 +43,7 @@ function NewsletterSubscription() {
             />
             <button
               type="submit"
-              className="flex-none rounded-md bg-[#5F38FB] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex-none rounded-md bg-[#5F38FB] px-3.5 py-2.5 text-sm font-light text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Subscribe
             </button>

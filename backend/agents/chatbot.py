@@ -47,6 +47,7 @@ def get_chatbot_response(user_message):
         return response.json()
     except requests.exceptions.RequestException as e:
         return {"error": str(e), "response": response.text if response else "No response"}
+    
 
 # Define the ChatbotAgent
 ChatbotAgent = Agent(
@@ -54,6 +55,8 @@ ChatbotAgent = Agent(
     port=8003,
     seed="Chatbot Agent secret phrase",
     endpoint=["http://127.0.0.1:8003/submit"],
+    
+   
 )
 
 # Register agent on Almanac and fund it if necessary
